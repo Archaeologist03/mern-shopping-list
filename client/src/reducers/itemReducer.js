@@ -17,14 +17,18 @@ export default function(state = initalState, action) {
       return {
         ...state,
       };
-    // case ADD_ITEM:
-    //   return {
-    //     ...state,
-    //   };
-    // case DELETE_ITEM:
-    //   return {
-    //     ...state,
-    //   };
+    case ADD_ITEM:
+      const newItem = { id: uuid(), name: action.itemName };
+      return {
+        ...state,
+        items: [...state.items, action.payload],
+      };
+    case DELETE_ITEM:
+      const newList = state.items.filter(item => item.id !== action.payload);
+      return {
+        ...state,
+        items: newList,
+      };
     default:
       return state;
   }
