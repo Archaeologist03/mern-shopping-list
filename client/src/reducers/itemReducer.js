@@ -1,14 +1,13 @@
-import uuid from 'uuid';
-
-import { GET_ITEMS, ADD_ITEM, DELETE_ITEM } from '../actions/types';
+import {
+  GET_ITEMS,
+  ADD_ITEM,
+  DELETE_ITEM,
+  ITEMS_LOADING,
+} from '../actions/types';
 
 const initalState = {
-  items: [
-    { id: uuid(), name: 'Eggs' },
-    { id: uuid(), name: 'Milk' },
-    { id: uuid(), name: 'Steak' },
-    { id: uuid(), name: 'Water' },
-  ],
+  items: [],
+  loading: false,
 };
 
 export default function(state = initalState, action) {
@@ -16,18 +15,24 @@ export default function(state = initalState, action) {
     case GET_ITEMS:
       return {
         ...state,
+        items: action.payload,
+        loading: false,
       };
     case ADD_ITEM:
-      const newItem = { id: uuid(), name: action.itemName };
       return {
         ...state,
         items: [...state.items, action.payload],
       };
     case DELETE_ITEM:
-      const newList = state.items.filter(item => item.id !== action.payload);
+      const newList = state.items.filter(item => item._id !== action.payload);
       return {
         ...state,
         items: newList,
+      };
+    case ITEMS_LOADING:
+      return {
+        ...state,
+        loading: true,
       };
     default:
       return state;
