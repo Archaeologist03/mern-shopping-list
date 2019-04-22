@@ -1,0 +1,7 @@
+#1 create default.json file in config folder.
+
+#2 add to default.json file:
+{
+  "mongoURI": <your-mongoURI>,
+  "jwtSecret": <jwtSecret>
+}
