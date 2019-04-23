@@ -10,10 +10,16 @@ import './App.css';
 
 import { Provider } from 'react-redux';
 import store from './store';
+import { loadUser } from './actions/authActions';
 
 import './App.css';
 
 class App extends Component {
+  componentDidMount() {
+    // calls loadUser action from authActions when app loads
+    store.dispatch(loadUser());
+  }
+
   render() {
     return (
       <Provider store={store}>
