@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken');
 // User model
 const User = require('../../models/User');
 
+const jwtSecret = process.env.JWT_SECRET || config.get('jwtSecret');
+
 // @route   POST api/users
 // @desc  register new users
 // @access  Public
@@ -37,7 +39,7 @@ router.post('/', async (req, res) => {
         // setting JWT
         jwt.sign(
           { id: user.id },
-          config.get('jwtSecret'),
+          jwtSecret,
           { expiresIn: 3600 },
           (err, token) => {
             if (err) throw err;

@@ -8,6 +8,8 @@ const auth = require('../../middleware/auth');
 // User model
 const User = require('../../models/User');
 
+const jwtSecret = process.env.JWT_SECRET || config.get('jwtSecret');
+
 // @route   POST api/auth
 // @desc  auth users
 // @access  Public
@@ -28,22 +30,17 @@ router.post('/', async (req, res) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
 
-  jwt.sign(
-    { id: user.id },
-    config.get('jwtSecret'),
-    { expiresIn: 3600 },
-    (err, token) => {
-      if (err) throw err;
-      res.json({
-        token,
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-        },
-      });
-    },
-  );
+  jwt.sign({ id: user.id }, jwtSecret, { expiresIn: 3600 }, (err, token) => {
+    if (err) throw err;
+    res.json({
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  });
 });
 
 // @route  GET api/auth/user
